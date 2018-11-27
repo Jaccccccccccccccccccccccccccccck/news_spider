@@ -1,3 +1,4 @@
+import logging
 import re
 
 import lxml
@@ -78,9 +79,10 @@ def clean_html_content_text(html_str):
     cleaner.style = True  # This is True because we want to activate the styles & stylesheet filter
 
     cleaned_html = cleaner.clean_html(lxml.html.fromstring(html_str))
-    cleaned_content = lxml.html.tostring(cleaned_html, encoding='utf-8').decode()
-
-    return cleaned_html, cleaned_content
+    cleaned_html_str = lxml.html.tostring(cleaned_html, encoding='utf-8').decode()
+    cleaned_content = str(cleaned_html.text_content())
+    cleaned_content = re.sub(r'\s', '', cleaned_content)
+    return cleaned_html_str, cleaned_content
 
 
 def news_parser(news_config: dict, response: Response):
@@ -88,9 +90,18 @@ def news_parser(news_config: dict, response: Response):
     author = _extract([XPathFirst(xpath_str) for xpath_str in news_config['author_xpath_list']], response)
     publish_time = _extract([XPathFirst(xpath_str) for xpath_str in news_config['publish_time_xpath_list']], response)
     rich_content_origin = _extract([XPathFirst(xpath_str) for xpath_str in news_config['content_xpath_list']], response)
+    if not (title and publish_time and rich_content_origin):
+        logging.debug(f'[NOT NEWS]<title>:{title}, '
+                      f'<publish_time>:{publish_time} '
+                      f'<content_text>:{bool(rich_content_origin)}'
+                      f'<url>:{response.url}')
+        return False, None
     cleaned_content, cleaned_content_text = clean_html_content_text(rich_content_origin)
-
-    return NewsItem(
+    logging.debug(f'[IS NEWS]<title>:{title}, '
+                  f'<publish_time>:{publish_time} '
+                  f'<content_text>:{cleaned_content_text}'
+                  f'<url>:{response.url}')
+    return True, NewsItem(
         source=news_config['source'],
         title=title,
         author=author,

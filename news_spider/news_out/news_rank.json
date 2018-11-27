@@ -1,0 +1,11 @@
+{
+  "sina": {
+    "https://finance.sina.com.cn/": 11,
+    "http://finance.sina.com.cn/zt_d/hmyl_123/": 3,
+    "https://finance.sina.com.cn/roll/2018-11-27/doc-ihmutuec3898188.shtml": 3,
+    "https://finance.sina.com.cn/money/fund/fundzmt/2018-11-27/doc-ihmutuec4134400.shtml": 3,
+    "https://finance.sina.com.cn/stock/observe/2018-11-26/doc-ihmutuec3771755.shtml": 2,
+    "https://finance.sina.com.cn/stock/jsy/2018-11-27/doc-ihpevhck9355653.shtml": 1,
+    "https://finance.sina.com.cn/futures/quotes/CL.shtml": 30
+  }
+}
