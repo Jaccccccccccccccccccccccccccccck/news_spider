@@ -26,7 +26,13 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-.idea
+.idea/
+# User-specific stuff:
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
